@@ -29,8 +29,6 @@ def insert_into_table(connection, table, title, author, genre, themes, medium):
 def search_in_table(connection, table, title, author, genre, theme, medium):
     try:
         cursor = connection.cursor()
-        #cursor.execute("SELECT * FROM " + table + " WHERE (INSTR('title', '" + title + "') AND INSTR('author', '" + author + "') AND INSTR('genre', '" + genre + "') AND INSTR('themes', '" + theme + "')) AND (medium='" + medium + "' OR INSTR('medium', '" + medium + "'))")
-        #print("SELECT * FROM " + table + " WHERE (INSTR('title', '" + title + "') AND INSTR('author', '" + author + "') AND INSTR('genre', '" + genre + "') AND INSTR('themes', '" + theme + "')) AND (medium='" + medium + "' OR INSTR('medium', '" + medium + "'))") 
         query = ""
         if title != "":
             query += " title LIKE '%" + title + "%'"
@@ -76,7 +74,6 @@ def print_table(connection, table):
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM " + table)
         connection.commit()
-        #print(cursor.fetchall())
         rows = cursor.fetchall()
         for row in rows:
             print("-------------------------------------------------------------------------------------------")
