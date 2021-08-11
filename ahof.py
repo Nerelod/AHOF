@@ -75,7 +75,9 @@ def print_table(connection, table):
         cursor.execute("SELECT * FROM " + table)
         connection.commit()
         rows = cursor.fetchall()
+        amount = 0
         for row in rows:
+            amount += 1
             print("-------------------------------------------------------------------------------------------")
             print("Title: " + row[0])
             print("Author: " + row[1])
@@ -83,13 +85,14 @@ def print_table(connection, table):
             print("Theme(s): " + row[3])
             print("Medium: " + row[4])
         print("-------------------------------------------------------------------------------------------")
+        print("There are " + str(amount) + " entries")
     except Error as e:
         print("Error: print_table: " + str(e))
 
 def remove_from_table(connection, table, searchkey):
     try:
         cursor = connection.cursor()
-        cursor.execute("DELETE FROM " + table + " WHERE title='" + searchkey + "'")
+        cursor.execute("DELETE FROM " + table + " WHERE title=?", (searchkey,))
         connection.commit()
     except Error as e:
         print("Error: remove_from_table: " + str(e))
@@ -113,8 +116,6 @@ def search(connection, table):
     theme = raw_input("Theme(s): ")
     medium = raw_input("Medium: ")
     search_in_table(connection, table, title, author, genre, theme, medium)
-    
-    
 
 def clear(connection, table):
     try:
@@ -153,7 +154,11 @@ def main():
         elif option == 4:
             print_table(connection, "art")
         elif option == 5:
-            clear(connection, "art")
+            yesno = input("ARE YOU SURE (y/n): ")
+            if yesno == "y" or yesno == "yes":
+                clear(connection, "art")
+            else:
+                print("nothing cleared")
         else:
             print("Not an option")
 main()
