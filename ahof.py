@@ -56,7 +56,9 @@ def search_in_table(connection, table, title, author, genre, theme, medium):
         print(full_query)
         cursor.execute(full_query)
         rows = cursor.fetchall()
+        amount = 0
         for row in rows:
+            amount += 1
             print("-------------------------------------------------------------------------------------------")
             print("Title: " + row[0])
             print("Author: " + row[1])
@@ -66,6 +68,7 @@ def search_in_table(connection, table, title, author, genre, theme, medium):
         print("-------------------------------------------------------------------------------------------")
         cursor.close()
         connection.commit()
+        print("There are " + str(amount) + " results")
     except Error as e:
         print("Error: search_in_table: " + str(e))
 
@@ -138,7 +141,7 @@ def main():
                                 )"""
     create_table(connection, sql_create_art_table)
     option = 5
-    
+    #TODO: add export and update functionality
     while option != 0:
         print("Choose an option:\n0: quit\n1: add\n2: remove\n3: search\n4: display all\n5: clear")
         option = input()
