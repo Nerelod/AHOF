@@ -56,7 +56,9 @@ def search_in_table(connection, table, title, author, genre, theme, medium):
         print(full_query)
         cursor.execute(full_query)
         rows = cursor.fetchall()
+        c = 0
         for row in rows:
+            c = c + 1
             print("-------------------------------------------------------------------------------------------")
             print("Title: " + row[0])
             print("Author: " + row[1])
@@ -64,6 +66,7 @@ def search_in_table(connection, table, title, author, genre, theme, medium):
             print("Theme(s): " + row[3])
             print("Medium: " + row[4])
         print("-------------------------------------------------------------------------------------------")
+        print("There are " + str(c) + " entries")
         cursor.close()
         connection.commit()
     except Error as e:
